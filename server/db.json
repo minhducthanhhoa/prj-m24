@@ -1,0 +1,148 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "iPhone 13",
+            "category": "iphone",
+            "price": 133,
+            "image": "https://shopdunk.com/images/thumbs/0000567_alpine-green_550.png"
+        },
+        {
+            "id": 2,
+            "name": "Samsung Galaxy S21",
+            "category": "android",
+            "price": 799,
+            "image": "https://cdn.tgdd.vn/Products/Images/42/220833/samsung-galaxy-s21-tim-600x600.jpg"
+        },
+        {
+            "id": 3,
+            "name": "samsung Galaxy 05",
+            "category": "android",
+            "price": 699,
+            "image": "https://cdn.viettelstore.vn/Images/Product/ProductImage/79703567.jpeg"
+        },
+        {
+            "id": 4,
+            "name": "iPhone 12",
+            "category": "iphone",
+            "price": 899,
+            "image": "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-12.png"
+        },
+        {
+            "id": 5,
+            "name": "Samsung Galaxy Note 20",
+            "category": "android",
+            "price": 999,
+            "image": "https://mobileworld.com.vn/uploads/product/05_2022/galaxy-note-20-5g-128gb-moi-99-like-new-my-chip-snapdragon-865-1.jpg"
+        },
+        {
+            "id": 6,
+            "name": "Samsung Galaxy S23 Ultra",
+            "category": "android",
+            "price": 699,
+            "image": "https://samcenter.vn/images/thumbs/0003130_samsung-galaxy-s23-ultra-256gb.jpeg"
+        },
+        {
+            "id": 7,
+            "name": "Oppo Reno8",
+            "category": "android",
+            "price": 949,
+            "image": "https://cdn.tgdd.vn/Products/Images/42/263714/oppo-reno8-5g-den-thumb-600x600.jpg"
+        },
+        {
+            "id": 8,
+            "name": "iPhone 11 Promax",
+            "category": "iphone",
+            "price": 399,
+            "image": "https://cdn.tgdd.vn/Products/Images/42/200533/iphone-11-pro-max-green-600x600.jpg"
+        },
+        {
+            "id": 9,
+            "name": "Xiaomi Mi 11",
+            "category": "android",
+            "price": 749,
+            "image": "https://cdn.tgdd.vn/Products/Images/42/230769/xiaomi-mi-11-pro-600x600-3-600x600.jpg"
+        },
+        {
+            "id": 10,
+            "name": "Oppo Find X3",
+            "category": "android",
+            "price": 849,
+            "image": "https://cdn.tgdd.vn/Products/Images/42/232190/oppo-find-x3-pro-black-001-1-600x600.jpg"
+        },
+        {
+            "id": 11,
+            "name": "iPhone 12",
+            "category": "iphone",
+            "price": 649,
+            "image": "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-12.png"
+        },
+        {
+            "id": 12,
+            "name": "Redmi Note 10",
+            "category": "android",
+            "price": 999,
+            "image": "https://i01.appmifile.com/v1/MI_18455B3E4DA706226CF7535A58E875F0267/pms_1632992423.4258771!400x400!85.jpg"
+        },
+        {
+            "id": 13,
+            "name": "Asus ROG Phone 5",
+            "category": "android",
+            "price": 999,
+            "image": "https://cdn.mobilecity.vn/mobilecity-vn/images/2023/04/asus-rog-phone-5-den.jpeg.webp"
+        },
+        {
+            "id": 14,
+            "name": "iPhone 15 Promax",
+            "category": "iphone",
+            "price": 599,
+            "image": "https://cdn.tgdd.vn/Products/Images/42/305658/iphone-15-pro-max-blue-thumbnew-600x600.jpg"
+        },
+        {
+            "id": 15,
+            "name": "iPhone XR",
+            "category": "iphone",
+            "price": 499,
+            "image": "https://bizweb.dktcdn.net/thumb/grande/100/342/250/products/xr-trang-jpeg.jpg?v=1669875554293"
+        },
+        {
+            "id": 16,
+            "name": "Samsung Galaxy A52",
+            "category": "android",
+            "price": 499,
+            "image": "https://cdn.tgdd.vn/Products/Images/42/228967/samsung-galaxy-a52-8gb-256gb-thumb-violet-600x600-200x200.jpg"
+        },
+        {
+            "id": 17,
+            "name": "iPhone 6 Plus",
+            "category": "iphone",
+            "price": 799,
+            "image": "https://iphonequangngai.com/wp-content/uploads/2018/03/dien-thoai-di-dong-iphone-6-6s-plus-quoc-te.png"
+        },
+        {
+            "id": 18,
+            "name": "iPhone 7",
+            "category": "iphone",
+            "price": 699,
+            "image": "https://mobileworld.com.vn/uploads/product/10_2018/iphone-7-128gb-quoc-te-99-4.png"
+        },
+        {
+            "id": 19,
+            "name": "iPhone 8",
+            "category": "iphone",
+            "price": 399,
+            "image": "https://cdn.tgdd.vn/Products/Images/42/114113/iphone-8-64gb-hh-600x600.jpg"
+        },
+        {
+            "id": 20,
+            "name": "Vivo X60",
+            "category": "android",
+            "price": 599,
+            "image": "https://cdn.tgdd.vn/Products/Images/42/229637/vivo-x60-600x600-600x600.jpg"
+        }
+    ],
+    "users": [
+    { "id": 1, "name": "User", "email": "user@example.com", "password": "password" }
+  ]
+}
+
