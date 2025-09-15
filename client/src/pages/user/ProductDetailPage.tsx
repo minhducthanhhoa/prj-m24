@@ -1,19 +1,21 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { fetchProducts, Product } from '../../redux/slices/productSlice';
-import { RootState } from '../../redux/store';
-import { addItemToCart } from '../../redux/slices/cartSlice';
-import { addToFavorites, removeFromFavorites } from '../../redux/slices/productSlice';
-import ProductDetail from '../../components/ProductDetail';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import {
+  fetchProducts,
+  addToFavorites,
+  removeFromFavorites,
+} from "../../redux/slices/productSlice";
+import { addItemToCart } from "../../redux/slices/cartSlice";
+import { RootState, AppDispatch } from "../../redux/store";
+import ProductDetail from "../../components/ProductDetail";
 
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch();
-  const product = useSelector((state: RootState) =>
-    state.products.items.find((item: Product) => item.id === Number(id))
-  );
-  const favorites = useSelector((state: RootState) => state.products.favorites);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { items, favorites } = useSelector((state: RootState) => state.products);
+  const product = items.find((item) => item.id === Number(id));
 
   useEffect(() => {
     if (!product) {
@@ -27,18 +29,20 @@ const ProductDetailPage: React.FC = () => {
     }
   };
 
-  const handleAddToFavorites = () => {
-    if (product) {
-      if (favorites.includes(product.id)) {
-        dispatch(removeFromFavorites(product.id));
-      } else {
-        dispatch(addToFavorites(product.id));
-      }
-    }
+  const toggleFavorite = () => {
+    if (!product) return;
+    const action = favorites.includes(product.id)
+      ? removeFromFavorites(product.id)
+      : addToFavorites(product.id);
+    dispatch(action);
   };
 
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container mx-auto text-center py-10">
+        <p className="text-lg text-gray-600">Loading product details...</p>
+      </div>
+    );
   }
 
   return (
@@ -46,7 +50,7 @@ const ProductDetailPage: React.FC = () => {
       <ProductDetail
         product={product}
         onAddToCart={handleAddToCart}
-        onAddToFavorites={handleAddToFavorites}
+        onAddToFavorites={toggleFavorite}
         isFavorite={favorites.includes(product.id)}
       />
     </div>

@@ -1,35 +1,75 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { removeItemFromCart, updateItemQuantity, clearCart } from '../../redux/slices/cartSlice';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import {
+  removeItemFromCart,
+  updateItemQuantity,
+  clearCart,
+} from "../../redux/slices/cartSlice";
+
+// Reusable Confirm Modal
+interface ConfirmModalProps {
+  title: string;
+  message: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+const ConfirmModal: React.FC<ConfirmModalProps> = ({
+  title,
+  message,
+  onConfirm,
+  onCancel,
+}) => (
+  <div className="fixed z-10 inset-0 overflow-y-auto">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+        <div className="p-6">
+          <h3 className="text-xl font-bold mb-4">{title}</h3>
+          <p>{message}</p>
+          <div className="flex justify-end mt-4">
+            <button
+              className="bg-red-500 text-white px-4 py-2 mr-2 rounded"
+              onClick={onConfirm}
+            >
+              Confirm
+            </button>
+            <button
+              className="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const items = useSelector((state: RootState) => state.cart.items);
-  const [showModal, setShowModal] = useState(false);
-  const [showClearModal, setShowClearModal] = useState(false);
-  const [itemToRemove, setItemToRemove] = useState<number | null>(null);
 
-  const handleRemove = (id: number) => {
-    setItemToRemove(id);
-    setShowModal(true);
-  };
+  const [modalConfig, setModalConfig] = useState<{
+    type: "remove" | "clear" | null;
+    itemId?: number;
+  }>({ type: null });
 
-  const confirmRemove = () => {
-    if (itemToRemove !== null) {
-      dispatch(removeItemFromCart(itemToRemove));
+  const openRemoveModal = (id: number) =>
+    setModalConfig({ type: "remove", itemId: id });
+
+  const openClearModal = () => setModalConfig({ type: "clear" });
+
+  const closeModal = () => setModalConfig({ type: null });
+
+  const confirmAction = () => {
+    if (modalConfig.type === "remove" && modalConfig.itemId !== undefined) {
+      dispatch(removeItemFromCart(modalConfig.itemId));
+    } else if (modalConfig.type === "clear") {
+      dispatch(clearCart());
     }
-    setShowModal(false);
-    setItemToRemove(null);
-  };
-
-  const handleClearCart = () => {
-    setShowClearModal(true);
-  };
-
-  const confirmClearCart = () => {
-    dispatch(clearCart());
-    setShowClearModal(false);
+    closeModal();
   };
 
   const handleUpdateQuantity = (id: number, quantity: number) => {
@@ -39,11 +79,18 @@ const Cart: React.FC = () => {
   return (
     <div className="container mx-auto">
       <h2 className="text-3xl my-4">Cart</h2>
+
       {items.length === 0 ? (
         <p>Giỏ hàng của bạn trống.</p>
       ) : (
         <div>
-          <button onClick={handleClearCart} className="bg-red-500 text-white px-4 py-2 mb-4">Clear Cart</button>
+          <button
+            onClick={openClearModal}
+            className="bg-red-500 text-white px-4 py-2 mb-4 rounded"
+          >
+            Clear Cart
+          </button>
+
           <ul>
             {items.map((item) => (
               <li key={item.id} className="mb-4">
@@ -52,68 +99,38 @@ const Cart: React.FC = () => {
                 <input
                   type="number"
                   value={item.quantity}
-                  onChange={(e) => handleUpdateQuantity(item.id, Number(e.target.value))}
+                  onChange={(e) =>
+                    handleUpdateQuantity(item.id, Number(e.target.value))
+                  }
                   className="w-16 border px-2 py-1"
                 />
-                <button onClick={() => handleRemove(item.id)} className="bg-red-500 text-white px-4 py-2 ml-4">Remove</button>
+                <button
+                  onClick={() => openRemoveModal(item.id)}
+                  className="bg-red-500 text-white px-4 py-2 ml-4 rounded"
+                >
+                  Remove
+                </button>
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      {showModal && (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-4">Confirm Deletion</h3>
-                <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?</p>
-                <div className="flex justify-end mt-4">
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 mr-2"
-                    onClick={confirmRemove}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="bg-gray-300 text-gray-700 px-4 py-2"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showClearModal && (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-4">Confirm Clear Cart</h3>
-                <p>Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng không?</p>
-                <div className="flex justify-end mt-4">
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 mr-2"
-                    onClick={confirmClearCart}
-                  >
-                    Clear Cart
-                  </button>
-                  <button
-                    className="bg-gray-300 text-gray-700 px-4 py-2"
-                    onClick={() => setShowClearModal(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      {modalConfig.type && (
+        <ConfirmModal
+          title={
+            modalConfig.type === "remove"
+              ? "Confirm Deletion"
+              : "Confirm Clear Cart"
+          }
+          message={
+            modalConfig.type === "remove"
+              ? "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?"
+              : "Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng không?"
+          }
+          onConfirm={confirmAction}
+          onCancel={closeModal}
+        />
       )}
     </div>
   );

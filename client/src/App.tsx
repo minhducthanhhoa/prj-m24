@@ -15,8 +15,6 @@ import Dashboard from './pages/admin/Dashboard';
 import ProductsAdmin from './pages/admin/ProductsAdmin';
 import Customers from './pages/admin/Customers';
 import Categories from './pages/admin/Categories';
-import AddCategory from './pages/admin/AddCategory';
-import EditCategory from './pages/admin/EditCategory';
 
 
 const App: React.FC = () => {
@@ -38,8 +36,7 @@ const App: React.FC = () => {
           <Route path="orders" element={<Orders />} />
           <Route path="customers" element={<Customers />} />
           <Route path="categories" element={<Categories />} />
-          <Route path="categories/add" element={<AddCategory />} />
-          <Route path="categories/edit/:id" element={<EditCategory />} />
+          
       </Routes>
       <Footer />
     </Router>

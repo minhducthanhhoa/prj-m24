@@ -1,30 +1,44 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts, Product, addToFavorites, removeFromFavorites } from '../../redux/slices/productSlice';
-import { addItemToCart } from '../../redux/slices/cartSlice';
-import { RootState } from '../../redux/store';
-import ProductList from '../../components/ProductList';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProducts,
+  addToFavorites,
+  removeFromFavorites,
+} from "../../redux/slices/productSlice";
+import { addItemToCart } from "../../redux/slices/cartSlice";
+import { RootState, AppDispatch } from "../../redux/store";
+import ProductList from "../../components/ProductList";
 
 const Products: React.FC = () => {
-  const dispatch = useDispatch();
-  const products = useSelector((state: RootState) => state.products.items);
-  const favorites = useSelector((state: RootState) => state.products.favorites);
+  const dispatch = useDispatch<AppDispatch>();
+  const { items: products, favorites, loading } = useSelector(
+    (state: RootState) => state.products
+  );
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    if (!products.length) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, products.length]);
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product: any) => {
     dispatch(addItemToCart({ ...product, quantity: 1 }));
   };
 
-  const handleAddToFavorites = (id: number) => {
-    if (favorites.includes(id)) {
-      dispatch(removeFromFavorites(id));
-    } else {
-      dispatch(addToFavorites(id));
-    }
+  const toggleFavorite = (id: number) => {
+    const action = favorites.includes(id)
+      ? removeFromFavorites(id)
+      : addToFavorites(id);
+    dispatch(action);
   };
+
+  if (loading) {
+    return (
+      <div className="container mx-auto text-center py-10">
+        <p className="text-lg text-gray-600">Loading products...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto">
@@ -32,7 +46,7 @@ const Products: React.FC = () => {
       <ProductList
         products={products}
         onAddToCart={handleAddToCart}
-        onAddToFavorites={handleAddToFavorites}
+        onAddToFavorites={toggleFavorite}
         favorites={favorites}
       />
     </div>

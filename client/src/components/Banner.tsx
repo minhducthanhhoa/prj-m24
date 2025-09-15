@@ -1,10 +1,20 @@
-import React from 'react';
+import React from "react";
 
-const Banner: React.FC = () => {
+interface BannerProps {
+  title?: string;
+  subtitle?: string;
+  bgColor?: string;
+}
+
+const Banner: React.FC<BannerProps> = ({
+  title = "Welcome to Phone Store",
+  subtitle = "Find the best phones at the best prices",
+  bgColor = "bg-blue-500",
+}) => {
   return (
-    <div className="bg-blue-500 p-8 text-center text-white">
-      <h2 className="text-4xl">Welcome to Phone Store</h2>
-      <p className="mt-4">Find the best phones at the best prices</p>
+    <div className={`${bgColor} p-8 text-center text-white`}>
+      <h2 className="text-4xl font-bold">{title}</h2>
+      {subtitle && <p className="mt-4 text-lg">{subtitle}</p>}
     </div>
   );
 };

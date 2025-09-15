@@ -6,12 +6,12 @@ export interface Product {
   name: string;
   category: string;
   price: number;
-  image:string;
+  image: string;
 }
 
 export interface ProductState {
   items: Product[];
-  status: 'idle' | 'loading' | 'failed';
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
   favorites: number[];
 }
 
@@ -21,10 +21,11 @@ const initialState: ProductState = {
   favorites: [],
 };
 
-export const fetchProducts:any = createAsyncThunk<Product[]>(
+// Async thunk fetch products
+export const fetchProducts = createAsyncThunk<Product[]>(
   'products/fetchProducts',
   async () => {
-    const response = await axios.get('http://localhost:5000/products');
+    const response = await axios.get<Product[]>('http://localhost:5000/products');
     return response.data;
   }
 );
@@ -33,11 +34,22 @@ const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    addToFavorites(state, action: PayloadAction<number>) {
-      state.favorites.push(action.payload);
+    addToFavorites: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      if (!state.favorites.includes(id)) {
+        state.favorites.push(id);
+      }
     },
-    removeFromFavorites(state, action: PayloadAction<number>) {
-      state.favorites = state.favorites.filter(id => id !== action.payload);
+    removeFromFavorites: (state, action: PayloadAction<number>) => {
+      state.favorites = state.favorites.filter((favId) => favId !== action.payload);
+    },
+    toggleFavorite: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      if (state.favorites.includes(id)) {
+        state.favorites = state.favorites.filter((favId) => favId !== id);
+      } else {
+        state.favorites.push(id);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -45,8 +57,8 @@ const productSlice = createSlice({
       .addCase(fetchProducts.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<Product[]>) => {
-        state.status = 'idle';
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         state.items = action.payload;
       })
       .addCase(fetchProducts.rejected, (state) => {
@@ -55,6 +67,16 @@ const productSlice = createSlice({
   },
 });
 
-export const { addToFavorites, removeFromFavorites } = productSlice.actions;
+// Actions
+export const { addToFavorites, removeFromFavorites, toggleFavorite } =
+  productSlice.actions;
+
+// Selectors
+export const selectAllProducts = (state: { products: ProductState }) =>
+  state.products.items;
+export const selectProductStatus = (state: { products: ProductState }) =>
+  state.products.status;
+export const selectFavorites = (state: { products: ProductState }) =>
+  state.products.favorites;
 
 export default productSlice.reducer;

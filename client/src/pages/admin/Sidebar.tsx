@@ -1,42 +1,40 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaTachometerAlt, FaProductHunt, FaShoppingCart, FaUsers, FaListAlt } from 'react-icons/fa';
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  FaTachometerAlt,
+  FaProductHunt,
+  FaShoppingCart,
+  FaUsers,
+  FaListAlt,
+} from "react-icons/fa";
+
+interface MenuItem {
+  path: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
+const menuItems: MenuItem[] = [
+  { path: "/dashboard", label: "Dashboard", icon: <FaTachometerAlt /> },
+  { path: "/productsAdmin", label: "Products", icon: <FaProductHunt /> },
+  { path: "/orders", label: "Orders", icon: <FaShoppingCart /> },
+  { path: "/customers", label: "Customers", icon: <FaUsers /> },
+  { path: "/categories", label: "Categories", icon: <FaListAlt /> },
+];
 
 const Sidebar: React.FC = () => {
   return (
     <div className="bg-gray-800 text-white h-screen p-4">
       <h2 className="text-2xl font-bold mb-6">Rikkei Academy</h2>
       <ul>
-        <li className="mb-4">
-          <Link to="/dashboard" className="flex items-center">
-            <FaTachometerAlt className="mr-2" />
-            Dashboard
-          </Link>
-        </li>
-        <li className="mb-4">
-          <Link to="/productsAdmin" className="flex items-center">
-            <FaProductHunt className="mr-2" />
-            Products
-          </Link>
-        </li>
-        <li className="mb-4">
-          <Link to="/orders" className="flex items-center">
-            <FaShoppingCart className="mr-2" />
-            Orders
-          </Link>
-        </li>
-        <li className="mb-4">
-          <Link to="/customers" className="flex items-center">
-            <FaUsers className="mr-2" />
-            Customers
-          </Link>
-        </li>
-        <li className="mb-4">
-          <Link to="/categories" className="flex items-center">
-            <FaListAlt className="mr-2" />
-            Categories
-          </Link>
-        </li>
+        {menuItems.map(({ path, label, icon }) => (
+          <li key={path} className="mb-4">
+            <Link to={path} className="flex items-center hover:text-gray-300">
+              <span className="mr-2">{icon}</span>
+              {label}
+            </Link>
+          </li>
+        ))}
       </ul>
     </div>
   );
